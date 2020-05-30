@@ -3,6 +3,7 @@ package com.epam.randomWalk.response;
 public class response {
     long result;
     long previousResult;
+    long requests;
 
     public response() {}
 
@@ -20,5 +21,13 @@ public class response {
 
     public void setPreviousResult(long previousResult) {
         this.previousResult = previousResult;
+    }
+
+    public long getRequests() {
+        return requests;
+    }
+
+    public void setRequests(long requests) {
+        this.requests = requests;
     }
 }
