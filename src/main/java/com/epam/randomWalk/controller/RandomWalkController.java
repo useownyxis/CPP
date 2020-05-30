@@ -5,6 +5,7 @@ import com.epam.randomWalk.cache.cacheService;
 import com.epam.randomWalk.random.randomService;
 import com.epam.randomWalk.requestCounter.requestCounter;
 import com.epam.randomWalk.response.response;
+import com.epam.randomWalk.stats.statistics;
 import com.epam.randomWalk.validation.walkValidator;
 import com.epam.randomWalk.walk.multipleWalkDto;
 import com.epam.randomWalk.walk.walkDto;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.concurrent.Semaphore;
 
@@ -64,10 +67,12 @@ public class RandomWalkController {
     public response bulkRandomWalkGeneration(@RequestBody multipleWalkDto walks) {
         randomGenerator = new randomService();
         response response = new response();
+        statistics stats = new statistics();
         walks.getWalks()
                 .stream()
                 .forEach(walk -> {
                     validator.validate(walk);
+                    stats.increaseTotalAmount();
                     response.setResult(randomGenerator.generate(walk));
                     if (cache.contains(walk)) {
                         response.setPreviousResult(cache.getResults(walk));
@@ -78,19 +83,16 @@ public class RandomWalkController {
                         cache.add(walk, response.getLastResult());
                     }
                 });
+        response.getResults()
+                .stream()
+                .forEach(num -> {
+
+                });
+        stats.setMaxValue(Collections.max(response.getResults()));
+        stats.setMinValue(Collections.min(response.getResults()));
+        stats.findPopular(response.getResults());
         response.setRequests(walks.getWalks().size());
+        response.setStats(stats);
         return response;
     }
-
-    @GetMapping("/test")
-    public multipleWalkDto test () {
-        multipleWalkDto r =  new multipleWalkDto();
-        ArrayList<walkDto> walks = new ArrayList<>();
-        walkDto walks1 = new walkDto();
-        walks1.setWalk(15);
-        walks.add(walks1);
-        r.setWalks(walks);
-        return r;
-    }
-
 }

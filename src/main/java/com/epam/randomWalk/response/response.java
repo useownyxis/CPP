@@ -1,11 +1,14 @@
 package com.epam.randomWalk.response;
 
+import com.epam.randomWalk.stats.statistics;
+
 import java.util.ArrayList;
 
 public class response {
     ArrayList<Long> results = new ArrayList<>();
     long previousResult;
     long requestsCount;
+    statistics stats = new statistics();
 
     public response() {}
 
@@ -35,5 +38,12 @@ public class response {
 
     public void setRequests(long requests) {
         this.requestsCount = requests;
+    }
+        public statistics getStats() {
+        return stats;
+    }
+
+    public void setStats(statistics stats) {
+        this.stats = stats;
     }
 }
