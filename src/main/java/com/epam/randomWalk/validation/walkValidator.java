@@ -15,11 +15,22 @@ public class walkValidator {
 
     public void validate(walkDto o) {
         log.info("Validate...");
-        if (o.getWalks() < 0) {
+        if (o.getWalk() < 0) {
             log.error("Wrong number of walks!");
             throw new ApiRequestException("Number of walks must be > 0");
         }
-        if (o.getWalks() > Integer.MAX_VALUE) {
+        if (o.getWalk() > Integer.MAX_VALUE) {
+            log.error("Wrong number size");
+            throw new InternalError("Integer Overflow Error");
+        }
+	}
+	public void validate(Long walk) {
+        log.info("Validate...");
+        if (walk < 0) {
+            log.error("Wrong number of walks!");
+            throw new ApiRequestException("Number of walks must be > 0");
+        }
+        if (walk > Integer.MAX_VALUE) {
             log.error("Wrong number size");
             throw new InternalError("Integer Overflow Error");
         }

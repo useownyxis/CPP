@@ -6,22 +6,21 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 
 public class walkDto {
-    long walks;
+    private long walk;
     private static final Logger log = LoggerFactory.getLogger(walkDto.class);
 
-    public walkDto(long walks) {
+    public walkDto() {
         log.info("WalkDTO object has created");
-        this.walks = walks;
     }
 
-    public void setWalks(long walks) {
+    public void setWalk(long walk) {
         log.info("Setting walk count");
-        this.walks = walks;
+        this.walk = walk;
     }
 
-    public long getWalks() {
+    public long getWalk() {
         log.info("Getting walk count");
-        return walks;
+        return walk;
     }
 
     @Override
@@ -29,11 +28,11 @@ public class walkDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         walkDto walkDto = (walkDto) o;
-        return walks == walkDto.walks;
+        return walk == walkDto.walk;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(walks);
+        return Objects.hash(walk);
     }
 }

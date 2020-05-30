@@ -16,8 +16,8 @@ public class randomService {
     }
 
     public long generate(walkDto walks) {
-        log.info(String.format("Generate random number in 0<num<%s", walks.getWalks()));
-        return rand.nextInt((int) (walks.getWalks()+1));
+        log.info(String.format("Generate random number in 0<num<%s", walks.getWalk()));
+        return rand.nextInt((int) (walks.getWalk()+1));
     }
 
 }

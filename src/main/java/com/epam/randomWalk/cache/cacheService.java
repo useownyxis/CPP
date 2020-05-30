@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service("cacheService")
@@ -33,5 +34,9 @@ public class cacheService {
         log.info("Update results");
         cache.remove(walks);
         cache.put(walks, newValue);
+    }
+
+    public HashMap<walkDto, Long> getCache() {
+        return cache;
     }
 }

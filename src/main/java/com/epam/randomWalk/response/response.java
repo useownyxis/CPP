@@ -1,18 +1,24 @@
 package com.epam.randomWalk.response;
 
+import java.util.ArrayList;
+
 public class response {
-    long result;
+    ArrayList<Long> results = new ArrayList<>();
     long previousResult;
-    long requests;
+    long requestsCount;
 
     public response() {}
 
-    public long getResult() {
-        return result;
+    public ArrayList<Long> getResults() {
+        return results;
     }
 
-    public void setResult(long result) {
-        this.result = result;
+     public Long getLastResult() {
+        return results.get(results.size() - 1);
+    }
+
+    public void setResult(Long result) {
+        results.add(result);
     }
 
     public long getPreviousResult() {
@@ -24,10 +30,10 @@ public class response {
     }
 
     public long getRequests() {
-        return requests;
+        return requestsCount;
     }
 
     public void setRequests(long requests) {
-        this.requests = requests;
+        this.requestsCount = requests;
     }
 }
