@@ -1,6 +1,7 @@
 package com.epam.randomWalk.controller;
 
 
+import com.epam.randomWalk.cache.cacheService;
 import com.epam.randomWalk.random.randomService;
 import com.epam.randomWalk.response.response;
 import com.epam.randomWalk.validation.walkValidator;
@@ -12,12 +13,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.Null;
+
 @RestController
 public class RandomWalkController {
 
     private static final Logger log = LoggerFactory.getLogger(RandomWalkController.class);
+
     @Autowired
     private randomService randomGenerator;
+
+    @Autowired
+    private cacheService cache = new cacheService();
+
     walkValidator validator = new walkValidator();
 
     @GetMapping("/walk")
@@ -27,7 +35,15 @@ public class RandomWalkController {
         validator.validate(walks);
         randomGenerator = new randomService();
         response response = new response();
-        response.setResult(randomGenerator.generate(walks));
+        if (cache.contains(walks)) {
+            response.setResult(randomGenerator.generate(walks));
+            response.setPreviousResult(cache.getResults(walks));
+            cache.updateValue(walks, response.getResult());
+        } else {
+            response.setResult(randomGenerator.generate(walks));
+            response.setPreviousResult(-1);
+            cache.add(walks, response.getResult());
+        }
         return response;
     }
 }
